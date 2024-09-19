@@ -2,12 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Controller, Get, Post, Delete, Req, Body, HttpCode,Param ,Query} from '@nestjs/common';
 import { Request } from 'express';
+import {UserDataDTO} from './UserDataDTO';
 
-
-interface UserData{
-  name:string;
-  email:string;
-}
+const USERS=[];
 
 @Controller('/users')                     //signifies that we are using this controller for users
 export class UsersController {            //class that contains various controllers for various http headers
@@ -42,9 +39,17 @@ export class UsersController {            //class that contains various controll
 
   @Post('/create')
   @HttpCode(200)           // defining hhtp status code in case we use any other
-  createUser(@Body() body: UserData) {
-    console.log(body.name,body.email);
-    return { message: 'User created', data: body };
+  createUser(@Body() body: UserDataDTO) {
+    USERS.push(body);  // Add the user data to the USERS array
+    console.log(body.name, body.email,body.age);
+    return { message: 'User created' };
+  }
+
+ 
+  @Get('/all')
+  @HttpCode(200)
+  getAllUsers() {
+    return USERS;  // Return the USERS array
   }
 
   @Delete('/delete')
