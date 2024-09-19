@@ -3,6 +3,12 @@
 import { Controller, Get, Post, Delete, Req, Body, HttpCode,Param ,Query} from '@nestjs/common';
 import { Request } from 'express';
 
+
+interface UserData{
+  name:string;
+  email:string;
+}
+
 @Controller('/users')                     //signifies that we are using this controller for users
 export class UsersController {            //class that contains various controllers for various http headers
 
@@ -36,7 +42,8 @@ export class UsersController {            //class that contains various controll
 
   @Post('/create')
   @HttpCode(200)           // defining hhtp status code in case we use any other
-  createUser(@Body() body: any) {
+  createUser(@Body() body: UserData) {
+    console.log(body.name,body.email);
     return { message: 'User created', data: body };
   }
 
